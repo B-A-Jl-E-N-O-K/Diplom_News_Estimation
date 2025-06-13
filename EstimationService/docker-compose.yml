@@ -1,0 +1,39 @@
+version: '2'
+
+services:
+  estimation_app:
+    build:
+      context: .
+    container_name: estimation_app
+    depends_on:
+      - estimation_db
+    environment:
+      - DATASOURCE_HOST=estimation_db
+      - DATASOURCE_PORT=5432
+      - DATASOURCE_USERNAME=postgres
+      - DATASOURCE_PASSWORD=postgres
+      - DATASOURCE_DB_NAME=news_estimation_db
+      - PYTHONUNBUFFERED=1
+      - KAFKA_SERVER_ADDRESS=kafka1:19093
+    networks:
+      - est_net
+      - datatransfer_kafka_net
+    ports:
+      - "8081:8081"
+
+  estimation_db:
+    image: 'postgres:15-alpine'
+    container_name: estimation_db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - est_net
+    ports:
+      - "5432:5432"
+
+networks:
+  est_net:
+  datatransfer_kafka_net:
+    external: true
+

@@ -1,0 +1,11 @@
+scikit-learn==1.6.1
+numpy
+pandas
+beautifulsoup4
+requests
+pymystem3
+nltk
+psycopg2
+joblib
+lxml
+kafka-python
