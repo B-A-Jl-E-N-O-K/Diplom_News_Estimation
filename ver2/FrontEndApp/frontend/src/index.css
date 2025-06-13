@@ -1,0 +1,235 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  top: 0px;
+  box-shadow: inset 0 0 100px 30px rgba(49, 49, 49, 0.8);
+  background-color: rgb(241, 241, 241);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.App{
+  padding: 5%;
+  display: flex;
+}
+
+.main{
+  width: 80%;
+  font-size: 120%;
+}
+
+.graph{
+  padding: 2%;
+  border-right: 3px solid black;
+  border-bottom: 3px solid black;
+  border-radius: 50px;
+}
+
+.footer{
+  padding: 2%;
+  border-top: 3px solid black;
+  border-right: 3px solid black;
+  border-radius: 50px;
+}
+
+.sideplate{
+  padding: 30px;
+  border-left: 3px solid black;
+  float: right;
+  overflow: auto;
+  font-size: 150%;
+  border-radius: 50px;
+}
+
+.tree .header{
+  display: flex;
+  min-height: 100px;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 4px solid black;
+  margin-bottom: 20px;
+  border-radius: 50px;
+}
+
+.tree .header .item{
+  text-decoration: solid;
+  font-size: 300%;
+  font-weight: bold;
+  width: 200px;
+  height: 120px;
+  /* border: 3px solid black; */
+  text-align: center;
+  justify-content: center;
+  line-height: 120px;
+}
+
+
+
+.tree .content {
+  /* border: 2px solid black; */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content:space-around;
+  row-gap: 30px;
+  column-gap: 30px;
+}
+
+
+.tree .content .item{
+  width: 250px;
+  height: 180px;
+  display: inline-block;
+  text-decoration: solid;
+  font-size: larger;
+  font-weight: bold;
+  line-height: 180px;
+  text-align: center;
+  outline: 2px solid black;
+  outline-offset: -2px;
+  border-radius: 25px;
+  
+}
+
+
+.sideList{
+  margin: 5%;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+  
+}
+
+.sideList .header, .sideList .secHeader{ 
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+  text-align: center;
+}
+
+.sideList .secHeader{ 
+  
+  padding-top: 10px;
+  border-top: 1px solid black;
+
+}
+
+.footTable{
+  width: 100%;
+}
+
+.footTable th, .footTable td{
+  padding: 10px;
+}
+
+.footTable th{
+  text-align: center;
+  text-decoration: solid;
+  font-size: larger;
+  border-bottom: 1px solid black;
+}
+
+.footTable td{
+  text-align: center;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+  font-size: 120%;
+}
+
+
+/* table tr:nth-child(even) {  
+    background: #f2f2f2; 
+}  
+
+
+table tr:nth-child(even) {  
+    background: #f2f2f2;
+}   */
+
+a{
+  text-decoration: none;
+  color: black;
+}
+
+.tree .header .item:hover, .tree .content .item:hover {
+        background: rgba(82, 82, 82, 0.178)
+    }
+
+.secListItem{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+
+.upNews{
+  height: 70px;
+  width:100px;
+  fill: green;
+}
+
+.downNews{
+  transform: scale(1, -1);
+  transform-origin: center;
+  height: 70px;
+  width:100px;
+  fill: red;
+}
+
+.noDataNews{
+  height: 70px;
+  width:100px;
+}
+
+.treeNodeIns{
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  
+}
+
+.treeimg{
+  width: 90%;
+  height: 90%;
+}
+
+
+
+.resblock{
+  display: block;
+  line-height: 90px;
+}
+
+.resblock p{
+  height: 50%;
+  padding: 0;
+  margin: 0%;
+  font-size: 120%;
+  
+}
+
+.treeresimg{
+  width: 50%;
+  height: 50%;
+}
+
+.notcur{
+  filter: blur(5px);
+  transition: 1s;
+}
+
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
+}
