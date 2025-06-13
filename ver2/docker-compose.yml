@@ -1,0 +1,49 @@
+version: '2'
+
+services:
+
+  # user_front_app:
+  #   build:
+  #     context: ./FrontEndApp/frontend
+  #   container_name: user_front_app
+  #   depends_on:
+  #     - user_back_app
+  #   networks:
+  #     - user_front_net
+  #   ports:
+  #     - "3000:3000"
+
+  user_back_app:
+    build:
+      context: ./UserService
+    container_name: user_back_app
+    depends_on:
+      - user_back_db
+    networks:
+      - user_net
+      - user_front_net
+      - datatransfer_kafka_net
+    ports:
+      - "8080:8080"
+
+  user_back_db:
+    image: 'postgres:15-alpine'
+    container_name: user_back_db
+    environment:
+      - POSTGRES_DB=db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - PGPORT=5433
+    networks:
+      - user_net
+    ports:
+      - "5433:5433"
+    command: -p 5433
+  
+
+
+networks:
+  user_net:
+  user_front_net:
+  datatransfer_kafka_net:
+    external: true

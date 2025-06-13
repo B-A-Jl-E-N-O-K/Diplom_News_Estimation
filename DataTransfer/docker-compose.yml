@@ -1,0 +1,88 @@
+version: "2"
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:5.4.0
+    hostname: zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOO_MY_ID: 1
+      ZOOKEEPER_CLIENT_PORT: 2181
+      KAFKA_OPTS: "-Djava.security.auth.login.config=/etc/kafka/zookeeper_jaas.conf"
+    volumes:
+    - ./zookeeper_data/data:/data
+    - ./zookeeper_data/datalog:/datalog
+    - ./config:/etc/kafka
+    networks:
+        - kafka_net
+
+  kafka1:
+    image: confluentinc/cp-kafka:5.4.0
+    hostname: kafka1
+    ports:
+      - "9091:9091"
+      - "19091:19091"
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER_INTERNAL://kafka1:19091,LISTENER_DOCKER_EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9091
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_DOCKER_INTERNAL:SASL_PLAINTEXT,LISTENER_DOCKER_EXTERNAL:SASL_PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER_INTERNAL
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_BROKER_ID: 1
+      # KAFKA_LISTENER_NAME_LISTENER_DOCKER_EXTERNAL_SASL_ENABLED_MECHANISMS: PLAIN
+      # KAFKA_LISTENER_NAME_LISTENER_DOCKER_INTERNAL_SASL_ENABLED_MECHANISMS: PLAIN
+      # sasl.mechanism.controller.protocol: PLAIN
+      # KAFKA_SASL_MECHANISM_CONTROLLER_PROTOCOL: PLAIN
+      # security.inter.broker.protocol: SASL_PLAINTEXT
+      # KAFKA_SECURITY_INTER_BROKER_PROTOCOL: SASL_PLAINTEXT
+      # KAFKA_LISTENER_NAME_LISTENER_SECURE_PLAIN_SASL_JAAS_CONFIG: |
+      #   org.apache.kafka.common.security.plain.PlainLoginModule required \
+      #   username="demo" \
+      #   password="demo-password" \
+      #   user_demo="demo-password";
+      KAFKA_OPTS: "-Djava.security.auth.login.config=/etc/kafka/kafka_server_jaas.conf"
+
+    volumes:
+      - ./kafka/kafka1/data:/var/lib/kafka/data
+      - ./config/kafka_server_jaas.conf:/etc/kafka/kafka_server_jaas.conf
+    depends_on:
+      - zookeeper
+    networks:
+      - kafka_net
+    
+  # kafka2:
+  #   image: confluentinc/cp-kafka:5.4.0
+  #   hostname: kafka2
+  #   ports:
+  #     - "9092:9092"
+  #     - "19092:19092"
+  #   environment:
+  #     KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER_INTERNAL://kafka2:19092,LISTENER_DOCKER_EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092
+  #     KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_DOCKER_INTERNAL:PLAINTEXT,LISTENER_DOCKER_EXTERNAL:PLAINTEXT
+  #     KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER_INTERNAL
+  #     KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+  #     KAFKA_BROKER_ID: 2
+  #   volumes:
+  #     - ./kafka/kafka2/data:/var/lib/kafka/data
+  #   depends_on:
+  #     - zookeeper
+  #   networks:
+  #     - kafka_net
+
+  # kafdrop:
+  #   image: obsidiandynamics/kafdrop
+  #   restart: "no"
+  #   ports:
+  #     - "9000:9000"
+  #   environment:
+  #     KAFKA_BROKERCONNECT: "kafka1:19091"
+  #   depends_on:
+  #     - kafka1
+  #     # - kafka2
+  #   networks:
+  #     - kafka_net
+
+networks:
+  kafka_net:
+    driver: bridge
